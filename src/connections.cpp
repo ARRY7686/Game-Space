@@ -1,4 +1,4 @@
-#include "connections.hpp"
+#include "../include/connections.hpp"
 
 Connections::Connections() : socket(context) {}
 
@@ -24,17 +24,21 @@ bool WiFiConnection::connect(const std::string& address, int port) {
     asio::error_code ec;
 
     asio::ip::tcp::endpoint endpoint(asio::ip::make_address(address, ec), port);
+    asio::ip::tcp::acceptor acceptor(context, endpoint);
 
-    socket.connect(endpoint, ec);
+    std::cout << "[WiFiConnection] Listening on " << address << ":" << port << std::endl;
+
+    acceptor.accept(socket, ec); 
 
     if (!ec) {
-        std::cout << "[WiFiConnection] Connected to " << address << ":" << port << std::endl;
+        std::cout << "[WiFiConnection] Client connected." << std::endl;
         return true;
     } else {
-        std::cerr << "[WiFiConnection] Error connecting to " << address << ":" << port << ": " << ec.message() << std::endl;
+        std::cerr << "[WiFiConnection] Error accepting connection: " << ec.message() << std::endl;
         return false;
     }
 }
+
 
 std::string WiFiConnection::receiveMessage() {
     std::array<char, 1024> buffer; 
