@@ -8,6 +8,7 @@ Game-Space is a desktop application that establishes a TCP connection with a mob
 - Receives and logs messages from a connected mobile client.
 - Modular class design for future extensions (e.g., Bluetooth, USB).
 - Uses ASIO (standalone) for asynchronous networking.
+- **New:** Cross-platform build support via `Makefile`.
 
 ## How It Works
 
@@ -18,17 +19,20 @@ Game-Space is a desktop application that establishes a TCP connection with a mob
 
 ## File Overview
 
-- `main.cpp`: Entry point. Establishes the connection and manages the receive loop.
-- `connections.hpp`: Declares `Connections` (abstract base class) and `WiFiConnection` (TCP implementation).
-- `connections.cpp`: Implements the networking logic for TCP connection, message sending, and receiving.
+- [`main.cpp`](https://github.com/ARRY7686/Game-Space/blob/ef33008cb801792f8656b83eb9bb4fa35cb34020/src/main.cpp): Entry point. Establishes the connection and manages the receive loop.
+- [`connections.hpp`](https://github.com/ARRY7686/Game-Space/blob/ef33008cb801792f8656b83eb9bb4fa35cb34020/include/connections.hpp): Declares `Connections` (abstract base class) and `WiFiConnection` (TCP implementation).
+- [`connections.cpp`](https://github.com/ARRY7686/Game-Space/blob/ef33008cb801792f8656b83eb9bb4fa35cb34020/src/connections.cpp): Implements the networking logic for TCP connection, message sending, and receiving.
+- [`Makefile`](https://github.com/ARRY7686/Game-Space/blob/ef33008cb801792f8656b83eb9bb4fa35cb34020/Makefile): Automates building the project and handling ASIO setup.
 
 ## Dependencies
 
 - [ASIO (standalone)](https://think-async.com/Asio/): Header-only networking library.
-  
+
 Make sure to define `ASIO_STANDALONE` before including ASIO headers.
 
 ## Build Instructions
 
+### Using Make (Recommended)
+
 ```bash
-g++ main.cpp connections.cpp -o GameSpaceClient -std=c++17 -lpthread
+make
